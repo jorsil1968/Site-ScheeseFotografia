@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SayCheese Fotografia — Marketing Imobiliário & Fotografia Comercial</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --black:      #0a0a0a;
+            --dark:       #111111;
+            --dark-2:     #181818;
+            --gold:       #FFB800;
+            --gold-light: #FFD060;
+            --white:      #ffffff;
+            --gray:       #888888;
+            --gray-light: #cccccc;
+        }
+
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: var(--black); color: var(--white); overflow-x: hidden; }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            padding: 1.2rem 6%;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: background .35s, backdrop-filter .35s;
+        }
+        nav.scrolled { background: rgba(10,10,10,.96); backdrop-filter: blur(14px); }
+        .nav-logo img { height: 104px; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a {
+            color: var(--white); text-decoration: none;
+            font-size: .82rem; font-weight: 500; letter-spacing: .07em; text-transform: uppercase;
+            opacity: .75; transition: opacity .2s, color .2s;
+        }
+        .nav-links a:hover { opacity: 1; color: var(--gold); }
+        .nav-cta {
+            background: var(--gold) !important; color: var(--black) !important;
+            padding: .5rem 1.35rem; border-radius: 2px;
+            opacity: 1 !important; font-weight: 600 !important;
+        }
+        .nav-cta:hover { background: var(--gold-light) !important; }
+
+        /* ─── HERO ─── */
+        .hero { height: 100vh; position: relative; display: flex; align-items: center; overflow: hidden; }
+        .hero-bg {
+            position: absolute; inset: 0;
+            background: url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1920&q=85') center/cover no-repeat;
+        }
+        .hero-bg::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(120deg, rgba(0,0,0,.9) 0%, rgba(0,0,0,.45) 55%, rgba(0,0,0,.7) 100%);
+        }
+        .hero-content { position: relative; z-index: 1; padding: 0 8%; max-width: 750px; }
+        .hero-badge {
+            display: block; border: 1px solid var(--gold); color: var(--gold);
+            font-size: .7rem; letter-spacing: .15em; text-transform: uppercase;
+            padding: .65rem 1.1rem; margin-bottom: 1.5rem;
+            max-width: 540px; text-align: justify; line-height: 1.7;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5.5vw, 5rem);
+            line-height: 1.08; margin-bottom: 1.4rem; font-weight: 700;
+        }
+        .hero h1 em { font-style: italic; color: var(--gold); }
+        .hero p { font-size: 1.05rem; line-height: 1.85; color: rgba(255,255,255,.76); margin-bottom: 2.5rem; max-width: 540px; text-align: justify; hyphens: auto; }
+
+        /* area pills */
+        .hero-areas { display: flex; gap: .75rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .area-pill {
+            border: 1px solid rgba(255,255,255,.25); color: rgba(255,255,255,.75);
+            font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
+            padding: .35rem .9rem; border-radius: 20px;
+        }
+        .area-pill.gold { border-color: var(--gold); color: var(--gold); }
+
+        .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn-primary {
+            background: var(--gold); color: var(--black);
+            padding: .95rem 2.4rem; font-weight: 600; font-size: .85rem;
+            letter-spacing: .05em; text-transform: uppercase; text-decoration: none;
+            border-radius: 2px; transition: background .2s, transform .2s; display: inline-block;
+        }
+        .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+        .btn-outline {
+            border: 1px solid rgba(255,255,255,.4); color: var(--white);
+            padding: .95rem 2.4rem; font-weight: 500; font-size: .85rem;
+            letter-spacing: .05em; text-transform: uppercase; text-decoration: none;
+            border-radius: 2px; transition: border-color .2s, background .2s; display: inline-block;
+        }
+        .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,.07); }
+
+        /* ─── BOKEH & LIGHT SWEEP ─── */
+        .hero-bokeh {
+            position: absolute; inset: 0; z-index: 1;
+            overflow: hidden; pointer-events: none;
+        }
+        .bokeh {
+            position: absolute; border-radius: 50%;
+            filter: blur(18px);
+            opacity: 0;
+            animation: bokehFloat var(--dur, 8s) ease-in-out infinite;
+            animation-delay: var(--delay, 0s);
+        }
+        @keyframes bokehFloat {
+            0%   { opacity: 0; transform: translateY(30px) scale(.85); }
+            15%  { opacity: var(--op, .18); }
+            85%  { opacity: var(--op, .18); }
+            100% { opacity: 0; transform: translateY(-80px) scale(1.15); }
+        }
+        .hero-sweep {
+            position: absolute; inset: 0; z-index: 1; pointer-events: none;
+            background: linear-gradient(110deg, transparent 0%, transparent 35%, rgba(255,184,0,.07) 50%, transparent 65%, transparent 100%);
+            background-size: 250% 100%;
+            animation: lightSweep 7s ease-in-out infinite;
+        }
+        @keyframes lightSweep {
+            0%   { background-position: 200% 0; opacity: 0; }
+            10%  { opacity: 1; }
+            90%  { opacity: 1; }
+            100% { background-position: -50% 0; opacity: 0; }
+        }
+
+        .hero-scroll {
+            position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: .5rem;
+            color: rgba(255,255,255,.4); font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+            z-index: 1; animation: scrollBounce 2.4s ease-in-out infinite;
+        }
+        .hero-scroll::after { content: ''; width: 1px; height: 38px; background: rgba(255,255,255,.25); }
+        @keyframes scrollBounce {
+            0%,100% { transform: translateX(-50%) translateY(0); }
+            50%      { transform: translateX(-50%) translateY(6px); }
+        }
+
+        /* ─── STATS ─── */
+        .stats-bar {
+            background: var(--gold); padding: 1.8rem 6%;
+            display: flex; justify-content: space-around; gap: 1.5rem; flex-wrap: wrap;
+        }
+        .stat { text-align: center; color: var(--black); }
+        .stat-number { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; display: block; line-height: 1; }
+        .stat-label { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; margin-top: .3rem; display: block; }
+
+        /* ─── SHARED ─── */
+        section { padding: 6rem 6%; }
+        .section-label { font-size: .7rem; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); margin-bottom: .85rem; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 3.8vw, 2.9rem); line-height: 1.2; margin-bottom: 1.3rem; }
+        .section-subtitle { color: var(--gray); font-size: .97rem; line-height: 1.8; max-width: 580px; }
+
+        /* ─── SERVICES ─── */
+        .services { background: var(--dark); }
+        .services-header { text-align: center; margin-bottom: 3.5rem; }
+        .services-header .section-label,
+        .services-header .section-title { text-align: center; }
+        .services-header .section-subtitle { margin: 0 auto; text-align: center; }
+
+        /* Area tabs */
+        .area-tabs {
+            display: flex; gap: 0; margin-bottom: 3rem;
+            border: 1px solid rgba(255,255,255,.1); border-radius: 3px; overflow: hidden;
+            max-width: 640px; margin: 0 auto 3.5rem;
+        }
+        .area-tab {
+            flex: 1; padding: 1rem 1.5rem; text-align: center; cursor: pointer;
+            background: transparent; border: none; color: rgba(255,255,255,.5);
+            font-family: 'Inter', sans-serif; font-size: .8rem; font-weight: 600;
+            letter-spacing: .1em; text-transform: uppercase;
+            transition: background .25s, color .25s; border-right: 1px solid rgba(255,255,255,.1);
+        }
+        .area-tab:last-child { border-right: none; }
+        .area-tab.active { background: var(--gold); color: var(--black); }
+        .area-tab:not(.active):hover { background: rgba(255,255,255,.05); color: rgba(255,255,255,.8); }
+
+        /* Tab panes */
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; }
+
+        /* Area hero card */
+        .area-hero {
+            position: relative; overflow: hidden; height: 220px; border-radius: 3px;
+            margin-bottom: 2rem;
+        }
+        .area-hero img { width: 100%; height: 100%; object-fit: cover; }
+        .area-hero::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to right, rgba(0,0,0,.8) 0%, rgba(0,0,0,.3) 60%, transparent 100%);
+        }
+        .area-hero-content { position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; padding: 0 2.5rem; }
+        .area-hero-content h3 { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; }
+        .area-hero-content p { color: rgba(255,255,255,.7); font-size: .9rem; margin-top: .4rem; }
+
+        /* Subcategory grid */
+        .sub-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 6px; }
+        .sub-card { position: relative; overflow: hidden; cursor: pointer; border-radius: 2px; }
+        .sub-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; transition: transform .55s ease; }
+        .sub-card:hover img { transform: scale(1.07); }
+        .sub-card--video { overflow: hidden; }
+        .sub-card--video video { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+        .sub-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,.88) 0%, rgba(0,0,0,.1) 55%, transparent 100%);
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 1.25rem 1.1rem;
+            transition: background .3s;
+        }
+        .sub-card:hover .sub-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,.94) 0%, rgba(0,0,0,.45) 55%, rgba(0,0,0,.1) 100%);
+        }
+        .sub-icon { display: none; }
+        .sub-name { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; margin-bottom: .2rem; }
+        .sub-desc {
+            font-size: .88rem; color: rgba(255,255,255,.68); line-height: 1.55;
+            max-height: 0; overflow: hidden; transition: max-height .4s ease;
+        }
+        .sub-card:hover .sub-desc { max-height: 200px; }
+
+        /* ─── PORTFOLIO ─── */
+        .portfolio { background: var(--black); }
+        .portfolio-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem; }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+        .portfolio-item { overflow: hidden; position: relative; border-radius: 2px; }
+        .portfolio-item img {
+            width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block;
+            transition: transform .5s ease;
+        }
+        .portfolio-item:hover img { transform: scale(1.05); }
+        .portfolio-label {
+            position: absolute; top: .8rem; left: .8rem; z-index: 1;
+            background: rgba(0,0,0,.65); backdrop-filter: blur(4px);
+            color: var(--gold); font-size: .62rem; letter-spacing: .18em; text-transform: uppercase;
+            padding: .25rem .6rem; border-radius: 20px;
+        }
+        .portfolio-overlay {
+            position: absolute; inset: 0; background: transparent;
+            display: flex; align-items: center; justify-content: center; transition: background .3s;
+        }
+        .portfolio-item:hover .portfolio-overlay { background: rgba(0,0,0,.38); }
+        .portfolio-plus {
+            width: 46px; height: 46px; border: 2px solid white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.4rem; line-height: 1;
+            opacity: 0; transform: scale(.8); transition: opacity .3s, transform .3s;
+        }
+        .portfolio-item:hover .portfolio-plus { opacity: 1; transform: scale(1); }
+
+        /* ─── ABOUT ─── */
+        .about { background: var(--dark-2); display: grid; grid-template-columns: 1fr 1fr; gap: 7rem; align-items: center; }
+        .about-image { position: relative; }
+        .about-image img { width: 75%; aspect-ratio: 3/4; object-fit: cover; object-position: top; display: block; filter: grayscale(100%); margin: 0 auto; }
+        .about-image::before {
+            content: ''; position: absolute;
+            top: -20px; left: -20px; right: 20px; bottom: 20px;
+            border: 1px solid var(--gold); z-index: -1;
+        }
+        .about-quote { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-style: italic; color: var(--gold); line-height: 1.65; margin-bottom: 1.8rem; }
+        .about-text { color: rgba(255,255,255,.72); line-height: 1.9; margin-bottom: 1.3rem; }
+        .about-signature { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-style: italic; margin-top: 2rem; }
+
+        /* ─── TESTIMONIALS ─── */
+        .testimonials { background: var(--black); }
+        .testimonials-header { text-align: center; margin-bottom: 4rem; }
+        .testimonials-header .section-subtitle { margin: 0 auto; }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .testimonial-card { background: var(--dark); padding: 2.4rem; border-left: 3px solid var(--gold); position: relative; }
+        .testimonial-card::before {
+            content: '\201C'; position: absolute; top: .8rem; right: 1.4rem;
+            font-family: 'Playfair Display', serif; font-size: 4.5rem; color: var(--gold); opacity: .22; line-height: 1;
+        }
+        .testimonial-stars { color: var(--gold); font-size: .88rem; margin-bottom: .9rem; }
+        .testimonial-text { color: rgba(255,255,255,.77); line-height: 1.8; margin-bottom: 1.8rem; font-size: .93rem; }
+        .testimonial-author { display: flex; align-items: center; gap: 1rem; }
+        .testimonial-avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+        .testimonial-name { font-weight: 600; font-size: .87rem; }
+        .testimonial-role { font-size: .76rem; color: var(--gray); }
+
+        /* ─── CTA BAND ─── */
+        .cta-band { background: var(--gold); text-align: center; padding: 6rem 6%; }
+        .cta-band .section-label { color: rgba(0,0,0,.5); }
+        .cta-band .section-title { color: var(--black); }
+        .cta-band p { color: rgba(0,0,0,.6); font-size: 1.05rem; margin-bottom: 3rem; }
+        .btn-dark {
+            background: var(--black); color: var(--white);
+            padding: 1.1rem 3rem; font-weight: 600; font-size: .85rem;
+            letter-spacing: .05em; text-transform: uppercase; text-decoration: none;
+            border-radius: 2px; display: inline-block; transition: background .2s;
+        }
+        .btn-dark:hover { background: #222; }
+
+        /* ─── CONTACT ─── */
+        .contact { background: var(--dark); display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+        .contact-detail { display: flex; gap: 1rem; margin-bottom: 1.8rem; align-items: flex-start; }
+        .contact-icon { width: 38px; height: 38px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: .88rem; }
+        .contact-detail-text strong { display: block; margin-bottom: .2rem; font-size: .88rem; }
+        .contact-detail-text a, .contact-detail-text span { color: var(--gray); text-decoration: none; font-size: .88rem; }
+        .contact-detail-text a:hover { color: var(--gold); }
+        .contact-social { display: flex; gap: .75rem; margin-top: 2.5rem; }
+        .social-link {
+            width: 40px; height: 40px; border: 1px solid rgba(255,255,255,.18);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: var(--white); text-decoration: none; font-size: .72rem; font-weight: 700; letter-spacing: .02em;
+            transition: border-color .2s, background .2s, color .2s;
+        }
+        .social-link:hover { border-color: var(--gold); background: var(--gold); color: var(--black); }
+        .contact-form .form-group { margin-bottom: 1.3rem; }
+        .contact-form label { display: block; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); margin-bottom: .4rem; }
+        .contact-form input, .contact-form select, .contact-form textarea {
+            width: 100%; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1);
+            color: var(--white); padding: .82rem 1rem; font-family: 'Inter', sans-serif; font-size: .92rem;
+            border-radius: 2px; transition: border-color .2s; outline: none; appearance: none;
+        }
+        .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus { border-color: var(--gold); }
+        .contact-form select option { background: var(--dark); }
+        .contact-form textarea { min-height: 120px; resize: vertical; }
+        .contact-form button {
+            background: var(--gold); color: var(--black); border: none;
+            padding: 1rem 2.5rem; font-family: 'Inter', sans-serif; font-weight: 600;
+            font-size: .85rem; letter-spacing: .05em; text-transform: uppercase;
+            cursor: pointer; border-radius: 2px; width: 100%; transition: background .2s;
+        }
+        .contact-form button:hover { background: var(--gold-light); }
+
+        /* ─── FOOTER ─── */
+        footer {
+            background: var(--black); padding: 2.4rem 6%;
+            display: flex; justify-content: space-between; align-items: center;
+            border-top: 1px solid rgba(255,255,255,.08); flex-wrap: wrap; gap: 1rem;
+        }
+        .footer-logo img { height: 38px; }
+        .footer-copy { color: var(--gray); font-size: .8rem; }
+        .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+        .footer-links a { color: var(--gray); text-decoration: none; font-size: .8rem; transition: color .2s; }
+        .footer-links a:hover { color: var(--gold); }
+
+        /* ─── ANIMATIONS ─── */
+        .fade-up { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 900px) {
+            .about, .contact { grid-template-columns: 1fr; gap: 3rem; }
+            .about-image::before { display: none; }
+            nav .nav-links { display: none; }
+        }
+        @media (max-width: 640px) {
+            section { padding: 4rem 5%; }
+            .portfolio-grid { grid-template-columns: 1fr 1fr; }
+            footer { flex-direction: column; text-align: center; }
+            .sub-grid { grid-template-columns: 1fr 1fr; }
+        }
+        /* ─── GALLERY HINT ─── */
+        .gallery-hint {
+            position: absolute; top: .8rem; right: .8rem; z-index: 2;
+            background: var(--gold); color: var(--black);
+            font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+            padding: .3rem .7rem; border-radius: 2px;
+            opacity: 0; transform: translateY(-4px);
+            transition: opacity .25s, transform .25s;
+        }
+        #openCozinhasGallery:hover .gallery-hint,
+        #openInterioresGallery:hover .gallery-hint,
+        #openComercialGallery:hover .gallery-hint,
+        #openPlantasGallery:hover .gallery-hint { opacity: 1; transform: translateY(0); }
+
+        /* ─── LIGHTBOX MODAL ─── */
+        .lb-overlay {
+            display: none; position: fixed; inset: 0; z-index: 2000;
+            background: rgba(0,0,0,.97);
+            flex-direction: column;
+        }
+        .lb-overlay.open { display: flex; }
+
+        .lb-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 2rem; border-bottom: 1px solid rgba(255,255,255,.08); flex-shrink: 0;
+        }
+        .lb-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; }
+        .lb-close {
+            background: none; border: 1px solid rgba(255,255,255,.25); color: var(--white);
+            width: 38px; height: 38px; border-radius: 50%; font-size: 1.1rem;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: border-color .2s, background .2s;
+        }
+        .lb-close:hover { border-color: var(--gold); background: var(--gold); color: var(--black); }
+
+        .lb-tabs {
+            display: flex; gap: 0; padding: .75rem 2rem 0; flex-shrink: 0;
+        }
+        .lb-tab {
+            padding: .5rem 1.4rem; background: none; border: none;
+            border-bottom: 2px solid transparent; color: rgba(255,255,255,.45);
+            font-family: 'Inter', sans-serif; font-size: .78rem; font-weight: 600;
+            letter-spacing: .1em; text-transform: uppercase; cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+        .lb-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+        .lb-main {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden; padding: 1rem 5rem;
+        }
+        .lb-main img {
+            max-width: 100%; max-height: 100%; object-fit: contain;
+            display: block; border-radius: 2px;
+            transition: opacity .2s;
+        }
+        .lb-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+            color: var(--white); width: 46px; height: 46px; border-radius: 50%;
+            font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: background .2s, border-color .2s; z-index: 1;
+        }
+        .lb-arrow:hover { background: var(--gold); border-color: var(--gold); color: var(--black); }
+        .lb-prev { left: 1rem; }
+        .lb-next { right: 1rem; }
+
+        .lb-counter {
+            position: absolute; bottom: .5rem; left: 50%; transform: translateX(-50%);
+            font-size: .72rem; color: rgba(255,255,255,.4); letter-spacing: .1em;
+        }
+
+        .lb-thumbs {
+            display: flex; gap: 6px; padding: .75rem 2rem;
+            overflow-x: auto; flex-shrink: 0; scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,.15) transparent;
+        }
+        .lb-thumbs::-webkit-scrollbar { height: 4px; }
+        .lb-thumbs::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 2px; }
+
+        .lb-thumb {
+            width: 72px; height: 52px; object-fit: cover; flex-shrink: 0;
+            cursor: pointer; opacity: .45; border: 2px solid transparent;
+            border-radius: 2px; transition: opacity .2s, border-color .2s;
+        }
+        .lb-thumb.active { opacity: 1; border-color: var(--gold); }
+        .lb-thumb:hover { opacity: .8; }
+    </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav id="navbar">
+    <a href="#" class="nav-logo">
+        <img src="brand_assets/Logos/Saycheese_Branco.png" alt="SayCheese Fotografia">
+    </a>
+    <ul class="nav-links">
+        <li><a href="#imobiliario">Marketing Imobiliário</a></li>
+        <li><a href="#comercial">Comercial</a></li>
+        <li><a href="#portfolio">Portfólio</a></li>
+        <li><a href="#about">Sobre Mim</a></li>
+        <li><a href="#contact" class="nav-cta">Pedir Orçamento</a></li>
+    </ul>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+        <span class="hero-badge">Fotografia & Videografia Profissional, Plantas 2D e 3D, Renderizações de imagens 3D, Staging digital, Landing pages para Angariações/Empreendimentos, etc.</span>
+        <h1>A imagem certa<br><em>vende mais</em></h1>
+        <p>Especializado em Marketing Imobiliário e Fotografia Comercial — crio conteúdo visual que destaca propriedades, espaços e marcas com excelência técnica e olhar criativo.</p>
+<div class="hero-buttons">
+            <a href="#services" class="btn-primary">Ver Serviços</a>
+            <a href="#contact" class="btn-outline">Pedir Orçamento</a>
+        </div>
+    </div>
+    <div class="hero-bokeh" id="heroBokeh"></div>
+    <div class="hero-sweep"></div>
+    <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- ─── STATS ─── -->
+<div class="stats-bar" id="statsBar">
+    <div class="stat">
+        <span class="stat-number" data-target="500" data-suffix="+">0</span>
+        <span class="stat-label">Projetos Realizados</span>
+    </div>
+    <div class="stat">
+        <span class="stat-number" data-target="8" data-suffix="+">0</span>
+        <span class="stat-label">Anos de Experiência</span>
+    </div>
+    <div class="stat">
+        <span class="stat-number" data-target="98" data-suffix="%">0</span>
+        <span class="stat-label">Clientes Satisfeitos</span>
+    </div>
+    <div class="stat">
+        <span class="stat-number" data-target="100" data-suffix="+">0</span>
+        <span class="stat-label">Visitas Virtuais Realizadas</span>
+    </div>
+</div>
+
+<!-- ─── SERVICES ─── -->
+<section class="services" id="services">
+    <div class="services-header fade-up">
+        <p class="section-label">O Que Fazemos</p>
+        <h2 class="section-title">Duas áreas,<br>um compromisso com a excelência</h2>
+        <p class="section-subtitle">Do imóvel de luxo ao espaço comercial — produzimos imagens que comunicam valor e geram resultados.</p>
+    </div>
+
+    <div class="area-tabs fade-up">
+        <button class="area-tab active" data-tab="imobiliario">Marketing Imobiliário</button>
+        <button class="area-tab" data-tab="comercial">Comercial</button>
+    </div>
+
+    <!-- TAB: Marketing Imobiliário -->
+    <div class="tab-pane active" id="tab-imobiliario" id="imobiliario">
+        <div class="area-hero fade-up">
+            <img src="Images/Fotos Imobiliário/Interiores/_NIK1819_Final.jpg" alt="Marketing Imobiliário">
+            <div class="area-hero-content">
+                <div>
+                    <h3>Marketing Imobiliário</h3>
+                    <p>Conteúdo visual que acelera vendas e valorizas os seus imóveis</p>
+                </div>
+            </div>
+        </div>
+        <div class="sub-grid">
+            <div class="sub-card">
+                <img src="Images/Fotos Imobiliário/Crepusculo/CR_Z62_0456-Dusk.jpg" alt="Fotografia Imobiliária">
+                <div class="sub-overlay">
+                    <div class="sub-icon">📷</div>
+                    <h4 class="sub-name">Fotografia</h4>
+                    <p class="sub-desc">Sem atalhos, sem edições exageradas — apenas imagens com mestria que mostram o verdadeiro carácter do imóvel. Composições cuidadas, tons naturais e entrega em 3 dias úteis, sem comprometer a qualidade.</p>
+                </div>
+            </div>
+            <div class="sub-card sub-card--video">
+                <video autoplay muted loop playsinline>
+                    <source src="Images/Videos/CR_Moradia_Galiza_2.mp4" type="video/mp4">
+                </video>
+                <div class="sub-overlay">
+                    <div class="sub-icon">🎬</div>
+                    <h4 class="sub-name">Videografia</h4>
+                    <p class="sub-desc">Vídeo não é um extra — é a expectativa mínima. Gravo em 4K com múltiplas câmaras, movimentos suaves e correção de cor feita à mão. Incluo drone e vídeos verticais nativos para redes sociais. Sem filtros genéricos. Só videografia a sério.</p>
+                </div>
+            </div>
+            <div class="sub-card">
+                <video autoplay muted loop playsinline style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block;">
+                    <source src="Images/Videos/VTEx.mp4" type="video/mp4">
+                </video>
+                <div class="sub-overlay">
+                    <div class="sub-icon">🌐</div>
+                    <h4 class="sub-name">Visitas Virtuais</h4>
+                    <p class="sub-desc">Tours 360° imersivos que permitem ao comprador visitar o imóvel a qualquer hora, em qualquer lugar.</p>
+                </div>
+            </div>
+            <div class="sub-card">
+                <video autoplay muted loop playsinline style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block;">
+                    <source src="Images/Videos/LPEx.mp4" type="video/mp4">
+                </video>
+                <div class="sub-overlay">
+                    <div class="sub-icon">🚁</div>
+                    <h4 class="sub-name">Landing pages para Real Estate</h4>
+                    <p class="sub-desc">Perspetivas aéreas únicas que contextualizam a propriedade e impressionam à primeira vista.</p>
+                </div>
+            </div>
+            <div class="sub-card" id="openPlantasGallery" style="cursor:pointer;">
+                <img src="Images/Plantas/Planta3d_NOlogo.jpg" alt="Plantas e 3D">
+                <div class="sub-overlay">
+                    <div class="sub-icon">📐</div>
+                    <h4 class="sub-name">Plantas e 3D</h4>
+                    <p class="sub-desc">A planta mostra o que as fotos não conseguem — dimensões, fluidez e como a casa realmente funciona. Ofereço plantas 2D com medidas exatas e plantas 3D imersivas com chão, pintura e mobília. Anúncios com plantas vendem mais rápido e geram menos visitas desnecessárias.</p>
+                </div>
+                <div class="gallery-hint">Ver Galeria →</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB: Comercial -->
+    <div class="tab-pane" id="tab-comercial" id="comercial">
+        <div class="area-hero fade-up">
+            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1400&q=85" alt="Fotografia Comercial">
+            <div class="area-hero-content">
+                <div>
+                    <h3>Comercial</h3>
+                    <p>Imagens que elevam marcas, produtos e espaços a outro nível</p>
+                </div>
+            </div>
+        </div>
+        <div class="sub-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="sub-card" id="openCozinhasGallery" style="cursor:pointer;">
+                <img src="Images/Fotos Imobiliário/Cozinhas. e WCs/Cozinhas/CR_Z62_0605.jpg" alt="Cozinhas e Casas de Banho">
+                <div class="sub-overlay">
+                    <div class="sub-icon">🍳</div>
+                    <h4 class="sub-name">Cozinhas e Casas de Banho</h4>
+                    <p class="sub-desc">As suas remodelações merecem imagens profissionais que realcem a verdadeira arte do seu trabalho. Com atenção à iluminação, composição e pormenores, capto acabamentos, texturas e cada detalhe. Fotografia premium que fortalece o seu portfólio e atrai o cliente ideal.</p>
+                </div>
+                <div class="gallery-hint">Ver Galeria →</div>
+            </div>
+            <div class="sub-card" id="openInterioresGallery" style="cursor:pointer;">
+                <img src="Images/Fotos Imobiliário/Design de Interiores/Workplace4.jpg" alt="Design de Interiores">
+                <div class="sub-overlay">
+                    <div class="sub-icon">🛋️</div>
+                    <h4 class="sub-name">Design de Interiores</h4>
+                    <p class="sub-desc">O design de interiores é atmosfera, luz e intenção — e uma boa fotografia transmite tudo isso. Com um olhar atento à luz, texturas e composição, capto não só como o espaço parece, mas como ele faz sentir.</p>
+                </div>
+                <div class="gallery-hint">Ver Galeria →</div>
+            </div>
+            <div class="sub-card" id="openComercialGallery" style="cursor:pointer;">
+                <img src="Images/Comercial/Sala-Provas.jpg" alt="Espaços Comerciais">
+                <div class="sub-overlay">
+                    <div class="sub-icon">🏢</div>
+                    <h4 class="sub-name">Espaços Comerciais</h4>
+                    <p class="sub-desc">Fotografar um espaço comercial é revelar a essência da marca e a experiência do cliente. Com luz estratégica e olhar de marca, crio imagens que despertam curiosidade, transmitem valor e fazem o cliente querer entrar.</p>
+                </div>
+                <div class="gallery-hint">Ver Galeria →</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── PORTFOLIO ─── -->
+<section class="portfolio" id="portfolio">
+    <div class="portfolio-header fade-up">
+        <div>
+            <p class="section-label">Nosso Trabalho</p>
+            <h2 class="section-title">Portfólio</h2>
+        </div>
+        <a href="#contact" class="btn-outline">Pedir Orçamento</a>
+    </div>
+    <div class="portfolio-grid fade-up">
+        <div class="portfolio-item"><span class="portfolio-label">Crepúsculo</span><img src="Images/Fotos Imobiliário/Crepusculo/CR_Z62_0456-Dusk.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Drone</span><img src="Images/Fotos Drone/Casa&Piscina .jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Drone</span><img src="Images/Fotos Drone/Drone4.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Drone</span><img src="Images/Fotos Drone/VistaAerea2.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Exterior</span><img src="Images/Fotos Imobiliário/Exteriores/CR_Z62_0452.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Exterior</span><img src="Images/Fotos Imobiliário/Exteriores/_NIK1517_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/_NIK0786-BanyakFinal..jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/_NIK1251-SamaFinal.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/_NIK1393_HD.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/_NIK1669_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/_NIK1819_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/_NIK1956_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/_NIK2110_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/_NIK2306_UkioFinal.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/_NIK2549_UkioFinal.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/HallEntrada1.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/QuartoPrincipal3.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/Sala6.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/SalaVerde2.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/Final_Sala3.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Design</span><img src="Images/Fotos Imobiliário/Design de Interiores/Workplace4.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Design</span><img src="Images/Fotos Imobiliário/Design de Interiores/_NIK1616_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Design</span><img src="Images/Fotos Imobiliário/Design de Interiores/_NIK1772_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Design</span><img src="Images/Fotos Imobiliário/Design de Interiores/_NIK2161_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Design</span><img src="Images/Fotos Imobiliário/Design de Interiores/Estante1.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Cozinha</span><img src="Images/Fotos Imobiliário/Cozinhas. e WCs/Cozinhas/CR_Z62_0605.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Cozinha</span><img src="Images/Fotos Imobiliário/Cozinhas. e WCs/Cozinhas/Cozinha1.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Cozinha</span><img src="Images/Fotos Imobiliário/Cozinhas. e WCs/Cozinhas/_NIK2039_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Casa de Banho</span><img src="Images/Fotos Imobiliário/Cozinhas. e WCs/Casas de Banho/WC1Suite2.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Casa de Banho</span><img src="Images/Fotos Imobiliário/Cozinhas. e WCs/Casas de Banho/_NIK1711_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+        <div class="portfolio-item"><span class="portfolio-label">Casa de Banho</span><img src="Images/Fotos Imobiliário/Cozinhas. e WCs/Casas de Banho/_NIK2291_UkioFinal.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
+    </div>
+</section>
+
+<!-- ─── ABOUT ─── -->
+<section class="about" id="about">
+    <div class="about-image fade-up">
+        <img src="Images/Pessoas/JS_edited.jpg" alt="SayCheese Fotografia">
+    </div>
+    <div class="about-content fade-up">
+        <p class="section-label">Sobre Mim</p>
+        <h2 class="section-title">Por trás da câmera</h2>
+        <p class="about-quote">"Uma boa fotografia não mostra apenas o espaço — comunica o seu valor."</p>
+        <p class="about-text">A SayCheese Fotografia nasceu da convicção de que o conteúdo visual é o argumento de venda mais poderoso no mercado imobiliário e comercial. Com mais de 8 anos de experiência, domino a arte de transformar espaços em imagens que vendem. Juntando todos os elementos que trabalho, consigo produzir meios visuais para qualquer tipo de imóvel, esteja ou não construído.</p>
+        <p class="about-text">Trabalho com agências imobiliárias, promotores, arquitetos, designers de interiores e marcas que exigem o melhor — porque a primeira impressão é muitas vezes a única.</p>
+        <p class="about-signature">SayCheese!</p>
+    </div>
+</section>
+
+<!-- ─── TESTIMONIALS ─── -->
+<section class="testimonials">
+    <div class="testimonials-header fade-up">
+        <p class="section-label">Depoimentos</p>
+        <h2 class="section-title">O que os meus clientes dizem</h2>
+        <p class="section-subtitle">A satisfação de cada cliente é o nosso maior reconhecimento.</p>
+    </div>
+    <div class="testimonials-grid">
+        <div class="testimonial-card fade-up">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text">"Excelente profissional!! Ultrapassa as expectativas e sempre muito criativo. TOP!"</p>
+            <div class="testimonial-author">
+                <img src="Images/Pessoas/Captura de ecrã 2025-07-24, às 15.11.53.png" alt="Rita Nunes" class="testimonial-avatar">
+                <div>
+                    <p class="testimonial-name">Rita Nunes</p>
+                    <p class="testimonial-role">CEO — Rita Realty Group</p>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-card fade-up">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text">"Adorei as fotos da minha casa. Estou muito contente com o resultado!"</p>
+            <div class="testimonial-author">
+                <img src="Images/Pessoas/Bia.jpeg" alt="Bia" class="testimonial-avatar">
+                <div>
+                    <p class="testimonial-name">Beatriz Silva</p>
+                    <p class="testimonial-role">Proprietária</p>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-card fade-up">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text">"Se é um serviço fotográfico profissional que pretendemos, então contamos com a nossa parceira Saycheese Fotografia para tal! Desta vez foi uma reportagem de um edifício com cinco apartamentos, escritórios, loja e garagem, incluindo DRONE e VIRTUAL STAGING!!!"</p>
+            <div class="testimonial-author">
+                <img src="Images/Pessoas/Logo_BIg.png" alt="Imobiliária" class="testimonial-avatar">
+                <div>
+                    <p class="testimonial-name">Big Welcome</p>
+                    <p class="testimonial-role">Imobiliária · Parceiro</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── CTA BAND ─── -->
+<div class="cta-band fade-up">
+    <p class="section-label">Pronto para começar?</p>
+    <h2 class="section-title">Vamos mostrar o seu espaço<br>no seu melhor ângulo</h2>
+    <p>Peça um orçamento sem compromisso e receba uma proposta personalizada em 24 horas.</p>
+    <a href="#contact" class="btn-dark">Pedir Orçamento Agora</a>
+</div>
+
+<!-- ─── CONTACT ─── -->
+<section class="contact" id="contact">
+    <div class="contact-info fade-up">
+        <p class="section-label">Entre em Contacto</p>
+        <h2 class="section-title">Vamos conversar?</h2>
+        <p style="color:var(--gray);line-height:1.8;margin-bottom:2.5rem;">Preencha o formulário ou contacte-me diretamente. Responderei em menos de 24 horas com uma proposta personalizada.</p>
+
+        <div class="contact-detail">
+            <div class="contact-icon">📧</div>
+            <div class="contact-detail-text">
+                <strong>E-mail</strong>
+                <a href="mailto:jorgeramos@saycheese.pt">jorgeramos@saycheese.pt</a>
+            </div>
+        </div>
+        <div class="contact-detail">
+            <div class="contact-icon">📱</div>
+            <div class="contact-detail-text">
+                <strong>WhatsApp / Telefone</strong>
+                <a href="tel:+351927302779">+351 927 302 779</a>
+            </div>
+        </div>
+        <div class="contact-detail">
+            <div class="contact-icon">📍</div>
+            <div class="contact-detail-text">
+                <strong>Zonas de Atuação</strong>
+                <span>Alcochete, Almada, Barreiro, Amadora, Cascais, Lisboa, Loures, Mafra, Moita, Montijo, Odivelas, Oeiras, Palmela, Seixal, Sintra, Sesimbra, Setúbal e Vila Franca de Xira. Possível outras zonas mediante acordo.</span>
+            </div>
+        </div>
+
+        <div class="contact-social">
+            <a href="#" class="social-link" aria-label="Instagram">IG</a>
+            <a href="#" class="social-link" aria-label="Facebook">FB</a>
+            <a href="#" class="social-link" aria-label="LinkedIn">LI</a>
+            <a href="#" class="social-link" aria-label="Houzz">HZ</a>
+        </div>
+    </div>
+
+    <form class="contact-form fade-up" id="contactForm">
+        <div class="form-group">
+            <label>Nome / Empresa</label>
+            <input type="text" placeholder="O seu nome ou empresa" required>
+        </div>
+        <div class="form-group">
+            <label>E-mail</label>
+            <input type="email" placeholder="email@exemplo.com" required>
+        </div>
+        <div class="form-group">
+            <label>Área de Interesse</label>
+            <select required>
+                <option value="">Selecione uma área...</option>
+                <optgroup label="Marketing Imobiliário">
+                    <option>Fotografia Imobiliária</option>
+                    <option>Videografia Imobiliária</option>
+                    <option>Visitas Virtuais 360°</option>
+                    <option>Landing pages para Real Estate</option>
+                    <option>Plantas e Renders 3D</option>
+                </optgroup>
+                <optgroup label="Comercial">
+                    <option>Cozinhas e Casas de Banho</option>
+                    <option>Design de Interiores</option>
+                    <option>Espaços Comerciais</option>
+                </optgroup>
+                <option>Múltiplos Serviços</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Mensagem</label>
+            <textarea placeholder="Descreva o seu projeto — localização, dimensão do espaço, prazo desejado..."></textarea>
+        </div>
+        <button type="submit">Enviar Pedido de Orçamento</button>
+    </form>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+    <div class="footer-logo">
+        <img src="brand_assets/Logos/Saycheese_Branco.png" alt="SayCheese Fotografia">
+    </div>
+    <p class="footer-copy">© 2026 SayCheese Fotografia. Todos os direitos reservados.</p>
+    <ul class="footer-links">
+        <li><a href="#services">Serviços</a></li>
+        <li><a href="#portfolio">Portfólio</a></li>
+        <li><a href="#contact">Contacto</a></li>
+    </ul>
+</footer>
+
+<script>
+    // Bokeh generator
+    const bokehContainer = document.getElementById('heroBokeh');
+    const bokehColors = [
+        'rgba(255,184,0,VAR)',   // gold
+        'rgba(255,220,96,VAR)',  // gold light
+        'rgba(255,255,255,VAR)', // white
+        'rgba(255,255,255,VAR)', // white (weighted)
+    ];
+    for (let i = 0; i < 18; i++) {
+        const el = document.createElement('div');
+        el.className = 'bokeh';
+        const size = 40 + Math.random() * 120;
+        const op = (.08 + Math.random() * .18).toFixed(2);
+        const color = bokehColors[Math.floor(Math.random() * bokehColors.length)].replace('VAR', op);
+        const dur = (6 + Math.random() * 8).toFixed(1);
+        const delay = (Math.random() * -10).toFixed(1);
+        el.style.cssText = `
+            width:${size}px; height:${size}px;
+            left:${Math.random()*100}%;
+            top:${20 + Math.random()*70}%;
+            background:${color};
+            --dur:${dur}s; --delay:${delay}s; --op:${op};
+            filter: blur(${12 + Math.random()*20}px);
+        `;
+        bokehContainer.appendChild(el);
+    }
+
+    // Sticky nav
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Count-up animation for stats
+    const statsBar = document.getElementById('statsBar');
+    let statsAnimated = false;
+
+    function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
+
+    function animateCountUp(el) {
+        const target = parseInt(el.dataset.target);
+        const suffix = el.dataset.suffix;
+        const duration = 1800;
+        const start = performance.now();
+
+        function step(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const value = Math.floor(easeOutQuart(progress) * target);
+            el.textContent = value + suffix;
+            if (progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    }
+
+    const statsObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && !statsAnimated) {
+            statsAnimated = true;
+            document.querySelectorAll('.stat-number[data-target]').forEach((el, i) => {
+                setTimeout(() => animateCountUp(el), i * 150);
+            });
+            statsObserver.disconnect();
+        }
+    }, { threshold: 0.5 });
+    statsObserver.observe(statsBar);
+
+    // Fade-up on scroll
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                io.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => io.observe(el));
+
+    // Area tabs
+    document.querySelectorAll('.area-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tab = btn.dataset.tab;
+            document.querySelectorAll('.area-tab').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('tab-' + tab).classList.add('active');
+        });
+    });
+
+    // Smooth scroll for nav links pointing to tabs
+    document.querySelector('a[href="#imobiliario"]')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelector('[data-tab="imobiliario"]').click();
+        document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+    });
+    document.querySelector('a[href="#comercial"]')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelector('[data-tab="comercial"]').click();
+        document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Form submit feedback
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const btn = e.target.querySelector('button');
+        btn.textContent = 'Pedido Enviado! ✓';
+        btn.style.background = '#2ecc71';
+        setTimeout(() => {
+            btn.textContent = 'Enviar Pedido de Orçamento';
+            btn.style.background = '';
+        }, 3000);
+    });
+</script>
+
+<!-- ─── GALLERY LIGHTBOX ─── -->
+<div class="lb-overlay" id="lbOverlay">
+    <div class="lb-header">
+        <span class="lb-title" id="lbTitle"></span>
+        <button class="lb-close" id="lbClose">✕</button>
+    </div>
+    <div class="lb-tabs" id="lbTabsRow"></div>
+    <div class="lb-main">
+        <button class="lb-arrow lb-prev" id="lbPrev">&#8592;</button>
+        <img id="lbImg" src="" alt="">
+        <button class="lb-arrow lb-next" id="lbNext">&#8594;</button>
+        <span class="lb-counter" id="lbCounter"></span>
+    </div>
+    <div class="lb-thumbs" id="lbThumbs"></div>
+</div>
+
+<script>
+    const galleries = {
+        cozinhas: [
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Cozinhas/CR_Z62_0605.jpg",
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Cozinhas/Cozinha1.jpg",
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Cozinhas/Cozinha2 2.jpg",
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Cozinhas/Cozinha3 2.jpg",
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Cozinhas/Cozinha4.jpg",
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Cozinhas/_NIK1656_Final.jpg",
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Cozinhas/_NIK2039_Final.jpg",
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Cozinhas/_NIK2098_Final.jpg",
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Cozinhas/_NIK2142_Final.jpg",
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Cozinhas/_NIK2314_UkioFinal.jpg"
+        ],
+        wcs: [
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Casas de Banho/CR_Z62_0374.jpg",
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Casas de Banho/CR_Z62_0401.jpg",
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Casas de Banho/CR_Z62_0485.jpg",
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Casas de Banho/WC1Suite2.jpg",
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Casas de Banho/WC_COMUM_1.jpg",
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Casas de Banho/WC_Quarto1.jpg",
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Casas de Banho/_NIK0872-BanyakFinal..jpg",
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Casas de Banho/_NIK1190-SamaFinal.jpg",
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Casas de Banho/_NIK1711_Final.jpg",
+            "Images/Fotos Imobiliário/Cozinhas. e WCs/Casas de Banho/_NIK2291_UkioFinal.jpg"
+        ],
+        plantas2d: [
+            "Images/Plantas/Planta Simples.png",
+            "Images/Plantas/Planta1.jpg",
+            "Images/Plantas/Planta2.jpg",
+            "Images/Plantas/Planta3.jpg",
+            "Images/Plantas/Planta3d_NOlogo.jpg",
+            "Images/Plantas/Planta4.jpg",
+            "Images/Plantas/Planta6.jpg",
+            "Images/Plantas/Planta9.jpg"
+        ],
+        renders3d: [
+            "Images/3D/Apartamento Mobilado-Versao Final-Cozinha-20260130-180516.jpg",
+            "Images/3D/Apartamento Mobilado-Versao Final-Quarto-20260203-152147.jpg",
+            "Images/3D/Perspectiva1.jpg",
+            "Images/3D/Perspectiva3.jpg",
+            "Images/3D/Perspectiva5.jpg",
+            "Images/3D/Perspectiva7.jpg",
+            "Images/3D/Pido2_8.jpg",
+            "Images/3D/Piso1_4.jpg",
+            "Images/3D/Sala4.jpg",
+            "Images/3D/Varanda Sala1.jpg"
+        ],
+        comercial: [
+            "Images/Comercial/Sala-Provas.jpg",
+            "Images/Comercial/Office1.jpg",
+            "Images/Comercial/Office2pexels-capture-crew-2153847797-33827303.jpg",
+            "Images/Comercial/Rest1.jpg",
+            "Images/Comercial/Rest2.jpg",
+            "Images/Comercial/Rest3.jpg"
+        ],
+        interiores: [
+            "Images/Fotos Imobiliário/Design de Interiores/Workplace4.jpg",
+            "Images/Fotos Imobiliário/Design de Interiores/Cadeira1.jpg",
+            "Images/Fotos Imobiliário/Design de Interiores/Cozinha5.jpg",
+            "Images/Fotos Imobiliário/Design de Interiores/Estante1.jpg",
+            "Images/Fotos Imobiliário/Design de Interiores/Quarto7.jpg",
+            "Images/Fotos Imobiliário/Design de Interiores/Closet2.jpg",
+            "Images/Fotos Imobiliário/Design de Interiores/_NIK0807-BanyakFinal.jpg",
+            "Images/Fotos Imobiliário/Design de Interiores/_NIK1031-BanyakFinal.jpg",
+            "Images/Fotos Imobiliário/Design de Interiores/_NIK1306-SamaFinal.jpg",
+            "Images/Fotos Imobiliário/Design de Interiores/_NIK1361-SamaFinal.jpg",
+            "Images/Fotos Imobiliário/Design de Interiores/_NIK1616_Final.jpg",
+            "Images/Fotos Imobiliário/Design de Interiores/_NIK1686_Final.jpg",
+            "Images/Fotos Imobiliário/Design de Interiores/_NIK1772_Final.jpg",
+            "Images/Fotos Imobiliário/Design de Interiores/_NIK2161_Final.jpg",
+            "Images/Fotos Imobiliário/Design de Interiores/_NIK2408_UkioFinal.jpg"
+        ]
+    };
+
+    // Config per trigger: title + ordered tabs
+    const galleryConfigs = {
+        cozinhasGallery: {
+            title: 'Cozinhas &amp; Casas de Banho',
+            tabs: [{ key: 'cozinhas', label: 'Cozinhas' }, { key: 'wcs', label: 'Casas de Banho' }]
+        },
+        interioresGallery: {
+            title: 'Design de Interiores',
+            tabs: [{ key: 'interiores', label: 'Interiores' }]
+        },
+        comercialGallery: {
+            title: 'Espaços Comerciais',
+            tabs: [{ key: 'comercial', label: 'Espaços Comerciais' }]
+        },
+        plantasGallery: {
+            title: 'Plantas e 3D',
+            tabs: [{ key: 'plantas2d', label: 'Plantas 2D+3D' }, { key: 'renders3d', label: 'Renders 3D' }]
+        }
+    };
+
+    let currentGallery = 'cozinhas';
+    let currentIndex = 0;
+
+    function openLightbox(configKey) {
+        const cfg = galleryConfigs[configKey];
+        document.getElementById('lbTitle').innerHTML = cfg.title;
+
+        // Render tabs
+        const tabsRow = document.getElementById('lbTabsRow');
+        tabsRow.innerHTML = cfg.tabs.map((t, i) =>
+            `<button class="lb-tab${i === 0 ? ' active' : ''}" data-gallery="${t.key}">${t.label}</button>`
+        ).join('');
+        tabsRow.querySelectorAll('.lb-tab').forEach(btn => {
+            btn.addEventListener('click', () => loadGallery(btn.dataset.gallery));
+        });
+
+        document.getElementById('lbOverlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+        loadGallery(cfg.tabs[0].key, 0);
+    }
+
+    function loadGallery(name, index = 0) {
+        currentGallery = name;
+        currentIndex = index;
+        const images = galleries[name];
+
+        document.querySelectorAll('.lb-tab').forEach(t => t.classList.toggle('active', t.dataset.gallery === name));
+
+        const thumbsEl = document.getElementById('lbThumbs');
+        thumbsEl.innerHTML = images.map((src, i) =>
+            `<img class="lb-thumb${i === index ? ' active' : ''}" src="${src}" data-index="${i}" alt="">`
+        ).join('');
+        thumbsEl.querySelectorAll('.lb-thumb').forEach(t => {
+            t.addEventListener('click', () => showImage(parseInt(t.dataset.index)));
+        });
+
+        showImage(index);
+    }
+
+    function showImage(index) {
+        const images = galleries[currentGallery];
+        currentIndex = (index + images.length) % images.length;
+        const img = document.getElementById('lbImg');
+        img.style.opacity = '0';
+        setTimeout(() => {
+            img.src = images[currentIndex];
+            img.style.opacity = '1';
+        }, 120);
+        document.getElementById('lbCounter').textContent = (currentIndex + 1) + ' / ' + images.length;
+        document.querySelectorAll('.lb-thumb').forEach((t, i) => t.classList.toggle('active', i === currentIndex));
+        const activeThumb = document.querySelector('.lb-thumb.active');
+        if (activeThumb) activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+
+    // Portfolio lightbox — build image list dynamically from the grid
+    const portfolioImgs = [...document.querySelectorAll('.portfolio-item img')].map(img => img.src);
+    galleries.portfolio = portfolioImgs;
+    galleryConfigs.portfolioGallery = {
+        title: 'Portfólio',
+        tabs: [{ key: 'portfolio', label: 'Todas as imagens' }]
+    };
+    document.querySelectorAll('.portfolio-item').forEach((item, i) => {
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', () => {
+            // Refresh in case images loaded after init
+            galleries.portfolio = [...document.querySelectorAll('.portfolio-item img')].map(img => img.src);
+            openLightbox('portfolioGallery');
+            loadGallery('portfolio', i);
+        });
+    });
+
+    // Open triggers
+    document.getElementById('openCozinhasGallery').addEventListener('click', () => openLightbox('cozinhasGallery'));
+    document.getElementById('openInterioresGallery').addEventListener('click', () => openLightbox('interioresGallery'));
+    document.getElementById('openComercialGallery').addEventListener('click', () => openLightbox('comercialGallery'));
+    document.getElementById('openPlantasGallery').addEventListener('click', () => openLightbox('plantasGallery'));
+
+    // Close
+    document.getElementById('lbClose').addEventListener('click', closeLightbox);
+    document.getElementById('lbOverlay').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) closeLightbox();
+    });
+    function closeLightbox() {
+        document.getElementById('lbOverlay').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    // Arrows
+    document.getElementById('lbPrev').addEventListener('click', () => showImage(currentIndex - 1));
+    document.getElementById('lbNext').addEventListener('click', () => showImage(currentIndex + 1));
+
+    // Tab switching
+    document.querySelectorAll('.lb-tab').forEach(btn => {
+        btn.addEventListener('click', () => loadGallery(btn.dataset.gallery, 0));
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (!document.getElementById('lbOverlay').classList.contains('open')) return;
+        if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+        if (e.key === 'ArrowLeft')  showImage(currentIndex - 1);
+        if (e.key === 'Escape')     closeLightbox();
+    });
+</script>
+</body>
+</html>
