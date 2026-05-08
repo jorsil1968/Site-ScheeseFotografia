@@ -354,6 +354,21 @@
             footer { flex-direction: column; text-align: center; }
             .sub-grid { grid-template-columns: 1fr 1fr; }
         }
+        /* Touch devices: no hover, so always show overlay text */
+        @media (hover: none) {
+            .sub-overlay {
+                background: linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.55) 55%, rgba(0,0,0,.15) 100%);
+                justify-content: flex-end;
+            }
+            .sub-name { font-size: 1rem; }
+            .sub-desc {
+                max-height: 300px;
+                color: rgba(255,255,255,.85);
+                font-size: .82rem;
+                line-height: 1.5;
+            }
+            .gallery-hint { opacity: 1; transform: translateY(0); }
+        }
         /* ─── GALLERY HINT ─── */
         .gallery-hint {
             position: absolute; top: .8rem; right: .8rem; z-index: 2;
@@ -556,7 +571,7 @@
                 <div class="sub-overlay">
                     <div class="sub-icon">🚁</div>
                     <h4 class="sub-name">Landing pages para Real Estate</h4>
-                    <p class="sub-desc">Perspetivas aéreas únicas que contextualizam a propriedade e impressionam à primeira vista.</p>
+                    <p class="sub-desc">Uma página exclusiva para o seu imóvel — design profissional, galeria imersiva e formulário de contacto que transforma visitas em propostas.</p>
                 </div>
             </div>
             <div class="sub-card" id="openPlantasGallery" style="cursor:pointer;">
