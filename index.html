@@ -369,6 +369,59 @@
             }
             .gallery-hint { opacity: 1; transform: translateY(0); }
         }
+        /* ─── VIDEO AI CARD ─── */
+        .sub-card--ai-feature {
+            border: 1.5px solid var(--gold);
+            animation: aiGlow 3.2s ease-in-out infinite;
+        }
+        @keyframes aiGlow {
+            0%, 100% { box-shadow: 0 0 18px rgba(255,184,0,.10); }
+            50%       { box-shadow: 0 0 44px rgba(255,184,0,.28); }
+        }
+        .sub-card--ai-feature video { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; transition: transform .55s ease; }
+        .sub-card--ai-feature:hover video { transform: scale(1.04); }
+        .sub-card--ai-feature .sub-name { font-size: 1.2rem; }
+
+        /* ─── VIDEO GALLERY LIGHTBOX ─── */
+        .vg-overlay {
+            display: none; position: fixed; inset: 0; z-index: 2001;
+            background: rgba(0,0,0,.97);
+            flex-direction: column;
+        }
+        .vg-overlay.open { display: flex; }
+        .vg-main {
+            flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 1rem 3rem 1.5rem; gap: 1.2rem; overflow: hidden;
+        }
+        .vg-main video {
+            max-width: 100%; max-height: 68vh;
+            border-radius: 3px; display: block; background: #000;
+            outline: none;
+        }
+        .vg-info { text-align: center; }
+        .vg-info h3 { font-family: 'Playfair Display', serif; font-size: 1.35rem; margin-bottom: .4rem; }
+        .vg-info p { color: var(--gray); font-size: .88rem; line-height: 1.6; max-width: 560px; }
+        @media (max-width: 640px) {
+            .vg-main { padding: 1rem 1rem 1.5rem; }
+            .vg-main video { max-height: 55vh; }
+        }
+        .ai-new-badge {
+            position: absolute; top: .85rem; left: .85rem; z-index: 3;
+            background: var(--gold); color: var(--black);
+            font-size: .6rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase;
+            padding: .28rem .75rem; border-radius: 20px;
+        }
+        .ai-overlay-scan {
+            position: absolute; inset: 0; z-index: 2; pointer-events: none;
+            background: linear-gradient(180deg, transparent 0%, transparent 40%, rgba(255,184,0,.06) 50%, transparent 60%, transparent 100%);
+            background-size: 100% 200%;
+            animation: aiScan 4s linear infinite;
+        }
+        @keyframes aiScan {
+            0%   { background-position: 0 100%; }
+            100% { background-position: 0 -100%; }
+        }
+
         /* ─── GALLERY HINT ─── */
         .gallery-hint {
             position: absolute; top: .8rem; right: .8rem; z-index: 2;
@@ -378,10 +431,14 @@
             opacity: 0; transform: translateY(-4px);
             transition: opacity .25s, transform .25s;
         }
+        #openFotografiaGallery:hover .gallery-hint,
+        #openLandingExample:hover .gallery-hint,
+        #openVisitasExample:hover .gallery-hint,
         #openCozinhasGallery:hover .gallery-hint,
         #openInterioresGallery:hover .gallery-hint,
         #openComercialGallery:hover .gallery-hint,
-        #openPlantasGallery:hover .gallery-hint { opacity: 1; transform: translateY(0); }
+        #openPlantasGallery:hover .gallery-hint,
+        #openVideoAIGallery:hover .gallery-hint { opacity: 1; transform: translateY(0); }
 
         /* ─── LIGHTBOX MODAL ─── */
         .lb-overlay {
@@ -468,7 +525,6 @@
     <ul class="nav-links">
         <li><a href="#imobiliario">Marketing Imobiliário</a></li>
         <li><a href="#comercial">Comercial</a></li>
-        <li><a href="#portfolio">Portfólio</a></li>
         <li><a href="#about">Sobre Mim</a></li>
         <li><a href="#contact" class="nav-cta">Pedir Orçamento</a></li>
     </ul>
@@ -535,14 +591,15 @@
                 </div>
             </div>
         </div>
-        <div class="sub-grid">
-            <div class="sub-card">
+        <div class="sub-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="sub-card" id="openFotografiaGallery" style="cursor:pointer;">
                 <img src="Images/Fotos Imobiliário/Crepusculo/CR_Z62_0456-Dusk.jpg" alt="Fotografia Imobiliária">
                 <div class="sub-overlay">
                     <div class="sub-icon">📷</div>
                     <h4 class="sub-name">Fotografia</h4>
                     <p class="sub-desc">Sem atalhos, sem edições exageradas — apenas imagens com mestria que mostram o verdadeiro carácter do imóvel. Composições cuidadas, tons naturais e entrega em 3 dias úteis, sem comprometer a qualidade.</p>
                 </div>
+                <div class="gallery-hint">Ver Galeria →</div>
             </div>
             <div class="sub-card sub-card--video">
                 <video autoplay muted loop playsinline>
@@ -554,7 +611,7 @@
                     <p class="sub-desc">Vídeo não é um extra — é a expectativa mínima. Gravo em 4K com múltiplas câmaras, movimentos suaves e correção de cor feita à mão. Incluo drone e vídeos verticais nativos para redes sociais. Sem filtros genéricos. Só videografia a sério.</p>
                 </div>
             </div>
-            <div class="sub-card">
+            <div class="sub-card" id="openVisitasExample" style="cursor:pointer;" onclick="window.open('https://tour-uk.metareal.com/apps/player?asset=1f6d1b11-150a-4fce-b2ab-1d0ee14ebe15','_blank')">
                 <video autoplay muted loop playsinline style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block;">
                     <source src="Images/Videos/VTEx.mp4" type="video/mp4">
                 </video>
@@ -563,8 +620,9 @@
                     <h4 class="sub-name">Visitas Virtuais</h4>
                     <p class="sub-desc">Tours 360° imersivos que permitem ao comprador visitar o imóvel a qualquer hora, em qualquer lugar.</p>
                 </div>
+                <div class="gallery-hint">Ver Exemplo →</div>
             </div>
-            <div class="sub-card">
+            <div class="sub-card" id="openLandingExample" style="cursor:pointer;" onclick="window.open('https://real-estate-lp-rouge.vercel.app/','_blank')">
                 <video autoplay muted loop playsinline style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block;">
                     <source src="Images/Videos/LPEx.mp4" type="video/mp4">
                 </video>
@@ -573,6 +631,7 @@
                     <h4 class="sub-name">Landing pages para Real Estate</h4>
                     <p class="sub-desc">Uma página exclusiva para o seu imóvel — design profissional, galeria imersiva e formulário de contacto que transforma visitas em propostas.</p>
                 </div>
+                <div class="gallery-hint">Ver Exemplo →</div>
             </div>
             <div class="sub-card" id="openPlantasGallery" style="cursor:pointer;">
                 <img src="Images/Plantas/Planta3d_NOlogo.jpg" alt="Plantas e 3D">
@@ -582,6 +641,16 @@
                     <p class="sub-desc">A planta mostra o que as fotos não conseguem — dimensões, fluidez e como a casa realmente funciona. Ofereço plantas 2D com medidas exatas e plantas 3D imersivas com chão, pintura e mobília. Anúncios com plantas vendem mais rápido e geram menos visitas desnecessárias.</p>
                 </div>
                 <div class="gallery-hint">Ver Galeria →</div>
+            </div>
+            <div class="sub-card sub-card--ai-feature" id="openVideoAIGallery" style="cursor:pointer;">
+                <span class="ai-new-badge">Novo Serviço</span>
+                <video autoplay muted loop playsinline src="Images/Videos/Terreno.mov"></video>
+                <div class="ai-overlay-scan"></div>
+                <div class="sub-overlay">
+                    <h4 class="sub-name">Video AI</h4>
+                    <p class="sub-desc">De uma só fotografia criamos vídeos cinematográficos prontos para Reels e portais imobiliários — sem câmara, sem equipa, sem custos acrescidos.</p>
+                </div>
+                <div class="gallery-hint">Ver Vídeos →</div>
             </div>
         </div>
     </div>
@@ -629,49 +698,6 @@
     </div>
 </section>
 
-<!-- ─── PORTFOLIO ─── -->
-<section class="portfolio" id="portfolio">
-    <div class="portfolio-header fade-up">
-        <div>
-            <p class="section-label">Nosso Trabalho</p>
-            <h2 class="section-title">Portfólio</h2>
-        </div>
-        <a href="#contact" class="btn-outline">Pedir Orçamento</a>
-    </div>
-    <div class="portfolio-grid fade-up">
-        <div class="portfolio-item"><span class="portfolio-label">Crepúsculo</span><img src="Images/Fotos Imobiliário/Crepusculo/CR_Z62_0456-Dusk.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Drone</span><img src="Images/Fotos Drone/Casa&Piscina .jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Drone</span><img src="Images/Fotos Drone/Drone4.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Drone</span><img src="Images/Fotos Drone/VistaAerea2.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Exterior</span><img src="Images/Fotos Imobiliário/Exteriores/CR_Z62_0452.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Exterior</span><img src="Images/Fotos Imobiliário/Exteriores/_NIK1517_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/_NIK0786-BanyakFinal..jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/_NIK1251-SamaFinal.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/_NIK1393_HD.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/_NIK1669_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/_NIK1819_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/_NIK1956_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/_NIK2110_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/_NIK2306_UkioFinal.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/_NIK2549_UkioFinal.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/HallEntrada1.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/QuartoPrincipal3.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/Sala6.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/SalaVerde2.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Interior</span><img src="Images/Fotos Imobiliário/Interiores/Final_Sala3.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Design</span><img src="Images/Fotos Imobiliário/Design de Interiores/Workplace4.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Design</span><img src="Images/Fotos Imobiliário/Design de Interiores/_NIK1616_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Design</span><img src="Images/Fotos Imobiliário/Design de Interiores/_NIK1772_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Design</span><img src="Images/Fotos Imobiliário/Design de Interiores/_NIK2161_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Design</span><img src="Images/Fotos Imobiliário/Design de Interiores/Estante1.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Cozinha</span><img src="Images/Fotos Imobiliário/Cozinhas. e WCs/Cozinhas/CR_Z62_0605.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Cozinha</span><img src="Images/Fotos Imobiliário/Cozinhas. e WCs/Cozinhas/Cozinha1.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Cozinha</span><img src="Images/Fotos Imobiliário/Cozinhas. e WCs/Cozinhas/_NIK2039_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Casa de Banho</span><img src="Images/Fotos Imobiliário/Cozinhas. e WCs/Casas de Banho/WC1Suite2.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Casa de Banho</span><img src="Images/Fotos Imobiliário/Cozinhas. e WCs/Casas de Banho/_NIK1711_Final.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-        <div class="portfolio-item"><span class="portfolio-label">Casa de Banho</span><img src="Images/Fotos Imobiliário/Cozinhas. e WCs/Casas de Banho/_NIK2291_UkioFinal.jpg" alt=""><div class="portfolio-overlay"><div class="portfolio-plus">+</div></div></div>
-    </div>
-</section>
 
 <!-- ─── ABOUT ─── -->
 <section class="about" id="about">
@@ -793,6 +819,7 @@
                 <optgroup label="Marketing Imobiliário">
                     <option>Fotografia Imobiliária</option>
                     <option>Videografia Imobiliária</option>
+                    <option>Video AI — Vídeo a partir de imagem</option>
                     <option>Visitas Virtuais 360°</option>
                     <option>Landing pages para Real Estate</option>
                     <option>Plantas e Renders 3D</option>
@@ -821,7 +848,6 @@
     <p class="footer-copy">© 2026 SayCheese Fotografia. Todos os direitos reservados.</p>
     <ul class="footer-links">
         <li><a href="#services">Serviços</a></li>
-        <li><a href="#portfolio">Portfólio</a></li>
         <li><a href="#contact">Contacto</a></li>
     </ul>
 </footer>
@@ -964,6 +990,26 @@
         }
     });
 </script>
+
+<!-- ─── VIDEO AI GALLERY ─── -->
+<div class="vg-overlay" id="vgOverlay">
+    <div class="lb-header">
+        <span class="lb-title">Video AI — Exemplos de Produção</span>
+        <button class="lb-close" id="vgClose">✕</button>
+    </div>
+    <div class="lb-tabs" id="vgTabs">
+        <button class="lb-tab active" data-vg="0">Construction Timelapse</button>
+        <button class="lb-tab" data-vg="1">Living Experience</button>
+        <button class="lb-tab" data-vg="2">Localization</button>
+    </div>
+    <div class="vg-main">
+        <video id="vgVideo" controls playsinline></video>
+        <div class="vg-info">
+            <h3 id="vgTitle"></h3>
+            <p id="vgDesc"></p>
+        </div>
+    </div>
+</div>
 
 <!-- ─── GALLERY LIGHTBOX ─── -->
 <div class="lb-overlay" id="lbOverlay">
@@ -1130,22 +1176,75 @@
         if (activeThumb) activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
 
-    // Portfolio lightbox — build image list dynamically from the grid
-    const portfolioImgs = [...document.querySelectorAll('.portfolio-item img')].map(img => img.src);
-    galleries.portfolio = portfolioImgs;
-    galleryConfigs.portfolioGallery = {
-        title: 'Portfólio',
-        tabs: [{ key: 'portfolio', label: 'Todas as imagens' }]
+    // Fotografia gallery
+    galleries.fotoInteriores = [
+        "Images/Fotos Imobiliário/Interiores/_NIK0786-BanyakFinal..jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK0830-BanyakFinal..jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK0925-BanyakFinal.jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK1089-BanyakFinal.jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK1251-SamaFinal.jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK1260-SamaFinal.jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK1393_HD.jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK1669_Final.jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK1731_Final.jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK1748_Final.jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK1819_Final.jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK1840_Final.jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK1956_Final.jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK2011_Final.jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK2110_Final.jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK2124_Final.jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK2145_Final.jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK2306_UkioFinal.jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK2359_UkioFinal.jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK2395_UkioFinal.jpg",
+        "Images/Fotos Imobiliário/Interiores/_NIK2549_UkioFinal.jpg",
+        "Images/Fotos Imobiliário/Interiores/CR_Z62_0503.jpg",
+        "Images/Fotos Imobiliário/Interiores/CR_Z62_0506.jpg",
+        "Images/Fotos Imobiliário/Interiores/CR_Z62_0512.jpg",
+        "Images/Fotos Imobiliário/Interiores/CR_Z62_0593.jpg",
+        "Images/Fotos Imobiliário/Interiores/Final_Sala3.jpg",
+        "Images/Fotos Imobiliário/Interiores/HallEntrada1.jpg",
+        "Images/Fotos Imobiliário/Interiores/HallSuperior1.jpg",
+        "Images/Fotos Imobiliário/Interiores/Quarto4.jpg",
+        "Images/Fotos Imobiliário/Interiores/Quarto5.jpg",
+        "Images/Fotos Imobiliário/Interiores/QuartoPrincipal3.jpg",
+        "Images/Fotos Imobiliário/Interiores/Sala After.jpg",
+        "Images/Fotos Imobiliário/Interiores/Sala6.jpg",
+        "Images/Fotos Imobiliário/Interiores/Sala7.jpg",
+        "Images/Fotos Imobiliário/Interiores/Sala8.jpg",
+        "Images/Fotos Imobiliário/Interiores/SalaAmarela5.jpg",
+        "Images/Fotos Imobiliário/Interiores/SalaVerde2.jpg",
+        "Images/Fotos Imobiliário/Interiores/Workplace2.jpg"
+    ];
+    galleries.fotoExteriores = [
+        "Images/Fotos Imobiliário/Crepusculo/CR_Z62_0456-Dusk.jpg",
+        "Images/Fotos Imobiliário/Exteriores/CR_Z62_0452.jpg",
+        "Images/Fotos Imobiliário/Exteriores/CR_Z62_0458.jpg",
+        "Images/Fotos Imobiliário/Exteriores/CR_Z62_0464.jpg",
+        "Images/Fotos Imobiliário/Exteriores/HC_Z62_0115.png",
+        "Images/Fotos Imobiliário/Exteriores/HC_Z62_0117.jpg",
+        "Images/Fotos Imobiliário/Exteriores/_NIK1517_Final.jpg",
+        "Images/Fotos Imobiliário/Exteriores/_NIK1583_Final.jpg"
+    ];
+    galleries.fotoDrone = [
+        "Images/Fotos Drone/Casa&Piscina .jpg",
+        "Images/Fotos Drone/DJI_0245.JPG",
+        "Images/Fotos Drone/Drone4.jpg",
+        "Images/Fotos Drone/Drone6.jpg",
+        "Images/Fotos Drone/VistaAerea2.jpg",
+        "Images/Fotos Drone/VistaAerea3.jpg",
+        "Images/Fotos Drone/dji_fly_20250326_133640_258_1742996233471_photo_optimized.JPG"
+    ];
+    galleryConfigs.fotografiaGallery = {
+        title: 'Fotografia Imobiliária',
+        tabs: [
+            { key: 'fotoInteriores', label: 'Interiores' },
+            { key: 'fotoExteriores', label: 'Exteriores' },
+            { key: 'fotoDrone',      label: 'Drone' }
+        ]
     };
-    document.querySelectorAll('.portfolio-item').forEach((item, i) => {
-        item.style.cursor = 'pointer';
-        item.addEventListener('click', () => {
-            // Refresh in case images loaded after init
-            galleries.portfolio = [...document.querySelectorAll('.portfolio-item img')].map(img => img.src);
-            openLightbox('portfolioGallery');
-            loadGallery('portfolio', i);
-        });
-    });
+    document.getElementById('openFotografiaGallery').addEventListener('click', () => openLightbox('fotografiaGallery'));
 
     // Open triggers
     document.getElementById('openCozinhasGallery').addEventListener('click', () => openLightbox('cozinhasGallery'));
@@ -1178,6 +1277,67 @@
         if (e.key === 'ArrowRight') showImage(currentIndex + 1);
         if (e.key === 'ArrowLeft')  showImage(currentIndex - 1);
         if (e.key === 'Escape')     closeLightbox();
+    });
+
+    // ─── VIDEO AI GALLERY ───
+    const vgVideos = [
+        {
+            src:   'Images/Videos/Timelapse%20constru%C3%A7%C3%A3o.mov',
+            title: 'Construction Timelapse',
+            desc:  'Da fundação à entrega — o processo de construção condensado numa narrativa visual impactante para campanhas de pré-venda e angariação.'
+        },
+        {
+            src:   'Images/Videos/Living_Big.mov',
+            title: 'Living Experience',
+            desc:  'Um passeio imersivo pelos espaços de vida do imóvel — atmosfera, luz e emoção capturadas para Instagram Reels e portais imobiliários.'
+        },
+        {
+            src:   'Images/Videos/Terreno.mov',
+            title: 'Localization',
+            desc:  'Envolvente, acessos e contexto geográfico do imóvel em vídeo — o argumento perfeito para comunicar localização e estilo de vida.'
+        }
+    ];
+
+    const vgOverlay = document.getElementById('vgOverlay');
+    const vgVideo   = document.getElementById('vgVideo');
+    const vgTitle   = document.getElementById('vgTitle');
+    const vgDesc    = document.getElementById('vgDesc');
+
+    function openVideoGallery(index = 0) {
+        vgOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        loadVGVideo(index);
+    }
+
+    function loadVGVideo(index) {
+        const v = vgVideos[index];
+        vgVideo.src = v.src;
+        vgTitle.textContent = v.title;
+        vgDesc.textContent  = v.desc;
+        vgVideo.load();
+        vgVideo.play().catch(() => {});
+        document.querySelectorAll('#vgTabs .lb-tab').forEach((t, i) => {
+            t.classList.toggle('active', i === index);
+        });
+    }
+
+    function closeVideoGallery() {
+        vgOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+        vgVideo.pause();
+    }
+
+    document.getElementById('openVideoAIGallery').addEventListener('click', () => openVideoGallery(0));
+    document.getElementById('vgClose').addEventListener('click', closeVideoGallery);
+    vgOverlay.addEventListener('click', (e) => { if (e.target === vgOverlay) closeVideoGallery(); });
+
+    document.querySelectorAll('#vgTabs .lb-tab').forEach((btn, i) => {
+        btn.addEventListener('click', () => loadVGVideo(i));
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (!vgOverlay.classList.contains('open')) return;
+        if (e.key === 'Escape') closeVideoGallery();
     });
 </script>
 </body>
