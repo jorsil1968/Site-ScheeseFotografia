@@ -6,6 +6,10 @@
 
 ## 1. Visão geral do projeto
 
+**Miniatura Videografia em 2026-10-25:** O cartão Videografia usa `Images/Videos/Video.mp4` como miniatura animada, em ciclo e sem som.
+
+**Miniatura Branding em 2026-10-25:** Cartão Redes Sociais e Branding usa `Images/Videos/GRS&B.mp4` como vídeo de fundo, com autoplay, muted, loop e playsinline, mantendo o texto e o formato do cartão.
+
 **Otimização para GitHub em 2026-10-25:** Original `Lote21.mp4` preservado localmente e ignorado no Git. Site usa `Lote21-web.mp4` em H.264/AAC, 1080 × 1920, com faststart. As eliminações locais preexistentes ficam fora do commit.
 
 **Galeria de fotografia em 2026-10-25:** Galeria única com as 51 imagens de `Images/Galeria Atual/`, sem separação entre interiores, exteriores e drone. Novos ficheiros exigem atualização da lista estática.
