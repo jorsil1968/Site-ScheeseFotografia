@@ -274,7 +274,9 @@
         .contact-icon { width: 38px; height: 38px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: .88rem; }
         .contact-detail-text strong { display: block; margin-bottom: .2rem; font-size: .88rem; }
         .contact-detail-text a, .contact-detail-text span { color: var(--gray); text-decoration: none; font-size: .88rem; }
+        .contact-detail-text a.contact-whatsapp { color: inherit; font-weight: inherit; }
         .contact-detail-text a:hover { color: var(--gold); }
+        .contact-whatsapp:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
         .contact-social { display: flex; gap: .75rem; margin-top: 2.5rem; }
         .social-link {
             width: 40px; height: 40px; border: 1px solid rgba(255,255,255,.18);
@@ -721,7 +723,7 @@
         <div class="contact-detail">
             <div class="contact-icon">📱</div>
             <div class="contact-detail-text">
-                <strong>WhatsApp / Telefone</strong>
+                <strong><a class="contact-whatsapp" href="https://wa.me/351927302779" target="_blank" rel="noopener noreferrer" aria-label="Abrir conversa no WhatsApp com SayCheese">WhatsApp</a> / Telefone</strong>
                 <a href="tel:+351927302779">+351 927 302 779</a>
             </div>
         </div>

@@ -6,6 +6,8 @@
 
 ## 1. Visão geral do projeto
 
+**Contacto WhatsApp em 2026-10-25:** O texto WhatsApp abre `https://wa.me/351927302779` numa nova aba para iniciar conversa; o número continua com ligação telefónica. Nenhuma mensagem é enviada automaticamente.
+
 **Miniatura Videografia em 2026-10-25:** O cartão Videografia usa `Images/Videos/Video.mp4` como miniatura animada, em ciclo e sem som.
 
 **Miniatura Branding em 2026-10-25:** Cartão Redes Sociais e Branding usa `Images/Videos/GRS&B.mp4` como vídeo de fundo, com autoplay, muted, loop e playsinline, mantendo o texto e o formato do cartão.
